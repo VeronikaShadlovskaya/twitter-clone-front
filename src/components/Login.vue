@@ -2,8 +2,7 @@
 	<form id="form-signin" class="form-signin">
 
 		<div id="logo" class="text-center mb-4">
-			<font-awesome-icon icon="smile"/>
-
+			<font-awesome-icon icon="smile"/>			
 			<h1 class="mb-3 font-weight-normal">Smile</h1>
 			<h4 id="greeting">Добро пожаловать</h4>
 		</div>
@@ -54,7 +53,7 @@
 					if(response.data.token)
 					{
 						this.$store.dispatch('setToken',response.data.token);
-						this.$router.push({ name: 'user', params: { userId } });
+						this.$router.replace({ name: 'user', params: { userId } });
 					}				
 				}
 				catch(error){
@@ -64,8 +63,8 @@
 			}
 		}
 	}
-		
-	</script>
+
+</script>
 
 
 
