@@ -1,36 +1,71 @@
 <template>
-<form id="form-signin" class="form-signin">
+	<form id="form-signin" class="form-signin">
 
-	<div id="logo" class="text-center mb-4">
-  <font-awesome-icon icon="smile"/>
-	
-		<h1 class="mb-3 font-weight-normal">Smile</h1>
-		<h4 id="greeting">Добро пожаловать</h4>
-	</div>
-	<div id="flipthis">
-		<div class="form-label-group">
-			<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-			<label for="inputEmail">Телефон или Email</label>
+		<div id="logo" class="text-center mb-4">
+			<font-awesome-icon icon="smile"/>
+
+			<h1 class="mb-3 font-weight-normal">Smile</h1>
+			<h4 id="greeting">Добро пожаловать</h4>
 		</div>
+		<div id="flipthis">
+			<div class="form-label-group">
+				<input required v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address"  autofocus="">
+				<label for="inputEmail">Телефон или Email</label>
+			</div>
 
-		<div class="form-label-group">
-			<input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" maxlength="6">
-			<label for="inputPassword">Пароль</label>
+			<div class="form-label-group">
+				<input required v-model="password" id="inputPassword" class="form-control" placeholder="Password"  maxlength="6">
+				<label for="inputPassword">Пароль</label>
+			</div>
+
+			<div class="text-center">
+				<button  @click="login" class="btn btn-primary btn-lg btn-block" type="submit">Войти</button>
+			</div>
 		</div>
-
 		<div class="text-center">
-			<button class="btn btn-primary btn-lg btn-block" type="submit">Войти</button>
+			<br />
+			<router-link to="/password_reset" id="flipCard" class="" href="#">Забыли пароль?</router-link>
+			<br />
+			<router-link to="/register" id="flipReg" class="" href="register.html">Регистрация</router-link>
 		</div>
-	</div>
-	<div class="text-center">
-		<br />
-		<a id="flipCard" class="" href="#">Забыли пароль?</a>
-		<br />
-		<a id="flipReg" class="" href="register.html">Регистрация</a>
-	</div>
-</form>
-
+	</form>
 </template>
+
+<script>
+	import axios from 'axios'
+
+	export default {
+		name: "Login",
+		data(){
+			return {
+				email : "",
+				password : "" ,
+				error:[]
+			}
+		},
+		
+		methods: {
+			async login() {
+				try{
+					const url='http://cfu.ru/api/login';
+					const response=await axios.post(url,{email: this.email, password: this.password
+					});
+					const userId=response.data.id;
+					if(response.data.token)
+					{
+						this.$store.dispatch('setToken',response.data.token);
+						this.$router.push({ name: 'user', params: { userId } });
+					}				
+				}
+				catch(error){
+					this.errors=[];
+					this.errors.push(error.message)
+				}
+			}
+		}
+	}
+		
+	</script>
 
 
 
