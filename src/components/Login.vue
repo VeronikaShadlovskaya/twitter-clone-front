@@ -1,11 +1,7 @@
 <template>
 	<form id="form-signin" class="form-signin">
 
-		<div id="logo" class="text-center mb-4">
-			<font-awesome-icon icon="smile"/>			
-			<h1 class="mb-3 font-weight-normal">Smile</h1>
-			<h4 id="greeting">Добро пожаловать</h4>
-		</div>
+
 		<div id="flipthis">
 			<div class="form-label-group">
 				<input required v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address"  autofocus="">

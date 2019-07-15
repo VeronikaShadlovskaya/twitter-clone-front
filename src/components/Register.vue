@@ -1,8 +1,6 @@
 <template>
 	<form id="form-signin" class="register">
 		<div id="logo" class="text-center mb-4">
-			<font-awesome-icon icon="smile"/>
-			<h1 class="mb-3 font-weight-normal">Smile</h1>
 			<h4 id="greeting">Заполните все поля ниже</h4>
 		</div>
 		<div id="flipthis">
@@ -62,11 +60,10 @@
 				try{
 					const url='http://cfu.ru/api/register';
 					const response=await axios.post(url,data);
-					const userId=response.data.id;
 					if(response.data.token)
 					{
 						this.$store.dispatch('setToken',response.data.token);
-						this.$router.replace({ name: 'user', params: { userId } });
+						this.$router.replace('/userPage');
 					}	
 				}
 				catch(error){
