@@ -1,7 +1,9 @@
 <template>
 	<form id="form-signin" class="form-signin">
 
-	
+
+
+		
 		<div id="flipthis">
 			<div class="form-label-group">
 				<input required v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address"  autofocus="">
