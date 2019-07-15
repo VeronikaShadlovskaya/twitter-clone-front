@@ -8,6 +8,7 @@ export default new Vuex.Store({
 	state:{
 		posts:[],
 		image:'/img/ava.jpg',
+		id:1,
 		user:null
 	},
 	actions:{
@@ -20,8 +21,8 @@ export default new Vuex.Store({
 			context.commit('addPost',post)
 		},
 		setImage(){},
-		setUsers(context,user){
-			context.commit('setUsers',user)
+		setUser(context,user){
+			context.commit('setUser',user)
 		}		
 	},
 	mutations:{
@@ -34,10 +35,15 @@ export default new Vuex.Store({
 			state.posts.unshift(post)
 		},
 		setImage(){},
-		setUsers(state,user)
+		setUser(state,user)
 		{
 			state.user=user;
 		}
+	},
 
+	getters:{
+		getUser(state){
+			return state.user
+		}
 	}
 })

@@ -16,6 +16,7 @@
     "core-js": "^2.6.5",
     "dotenv": "^8.0.0",
     "vue": "^2.6.10",
+    "vue-bootstrap-datetimepicker": "^5.0.1",
     "vue-router": "^3.0.3"
   },
   "devDependencies": {

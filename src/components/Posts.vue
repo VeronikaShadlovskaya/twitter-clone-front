@@ -63,24 +63,3 @@ methods:
 };
 </script>
 
-<style> 
-input {
-  width:260px;
-  border-radius: 4px;
-  border: none;
-  margin: 15px 0;
-  padding: 16px 40px;
-  outline: none;
-  transition: all .2s;
-}
-
-input{
-  background: #efefef;
-  font-size: 14px;
-  transition: all 0.2s;
-}
-
-input:focus{
-  background-color: #ddd;
-}
-</style>

@@ -1,5 +1,5 @@
-<template slot="header">
-	<div class="container">
+<template >
+	<div class="container header">
 		<div class="row">
 			<div class="col-lg-8 ml-auto">
 				<nav>
@@ -18,7 +18,7 @@
 				</nav>
 			</div>	
 			<div class="col-lg-2 ml-auto">	
-				<button @click="exit" class="btn btn-primary btn-lg btn-block">Выход</button>  
+				<button @click="exit" class="btn btn-primary btn-lg btn-block exit">Выход</button>  
 			</div>	
 		</div>
 	</div>	
@@ -66,6 +66,7 @@ ul,li{
 	display:block;
 	padding:0;
 	margin:0;
+	margin-top: 10px;
 }
 
 
@@ -74,5 +75,9 @@ ul,li{
 	font-weight: bold;
 	margin:0 57px;
 
+}
+.exit{
+	margin-top:0px;
+	padding: 0px;
 }
 </style>

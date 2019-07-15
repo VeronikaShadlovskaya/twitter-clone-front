@@ -2,31 +2,41 @@
 	<div class="userCard">
 		<img :src="imageUrl" class="mainImg">
 		<div v-if="!editP">
-			<button class="btn btn-secondary btn-sm edit" @click="edit">Редактировать профиль </button>
-			<h3   class="userName"> {{this.$store.state.user.username}}</h3>
+			<button class="btn btn-secondary btn-sm btnU" @click="edit">Редактировать профиль </button>
+			<h4  class="userName"> {{User.username}}</h4>
+			<h6 v-if="User.birth"> День рождения: {{User.birth}}</h6>
+			<h6 v-if="User.address.city"> Город: {{User.address.city}}</h6>
+			<h6 v-if="User.website"> Сайт: {{User.website}}</h6>
 		</div>
 		
 
-		<div v-if="editP">
+		<div v-else>
 			<div class="userCardEdit">
 				<input style="display:none" type="file" @change="selectPhoto" ref="fileInput" accept="image/*">
-				<div class="container">
+				<div class="container edit">
 					<div class="row">
-						<div class="col-md-6">
-							<button @click="$refs.fileInput.click()" class=" btn btn-secondary btn-sm ">Выбрать фото</button>
+						<div class="col-md-12 ml-auto">
+							<button @click="$refs.fileInput.click()" class=" btn btn-secondary btn-sm btnU">Изменить фото</button>
 						</div>
-						<div class="col-md-6"> 
-							<button @click="onUpload" class="btn btn-secondary btn-sm ">Загрузить фото</button>
+
+						<div class="col-md-12 ml-auto">
+							<h5>Имя: <input  type="text" v-model="User.username" ></h5>		
+						</div>
+						<div class="col-md-12 ml-auto">					
+							<h5>Дата рождения:<date-picker v-model="date" :config="options"></date-picker></h5>
 						</div>
 						<div class="col-md-12 ml-auto">
-							<input   type="text" name="username"  :placeholder="this.$store.state.user.username">
+							<h5>Город: <input  type="text" v-model="User.address.city" ></h5>		
 						</div>
-						
+						<div class="col-md-12 ml-auto">
+							<h5>Веб-сайт: <input  type="url" v-model="User.website"></h5>		
+						</div>
+
 						<div class="col-md-6"> 
-							<button class="btn btn-secondary btn-sm" @click="save">Сохранить</button>
+							<button class="btn btn-secondary btn-sm btnU" @click="save">Сохранить</button>
 						</div>
 						<div class="col-md-6">
-							<button class="btn btn-secondary btn-sm" @click="notSave">Не сохранять</button>
+							<button class="btn btn-secondary btn-sm btnU" @click="notSave">Не сохранять</button>
 						</div>
 					</div>
 				</div>
@@ -36,24 +46,35 @@
 
 </template>
 
-<script>
+<script type="text/javascript">
 	import axios from 'axios'
-
+	import datePicker from 'vue-bootstrap-datetimepicker'
+	import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css'
 	export default {
 		name: "UserCard",
+		components:{
+			datePicker
+		},
 		data(){
 			return{
-				user:null,
 				editP:false,
 				selectedFile:null,
-				imageUrl:this.$store.state.image
+				imageUrl:this.$store.state.image,
+				
+				date: new Date(),
+				options: {
+					format: 'DD/MM/YYYY',
+					useCurrent: false
+				}
 			}
 		},
+		
 		mounted()
 		{
 			try{
-				axios.get("https://jsonplaceholder.typicode.com/users?id=1")
-				.then(response =>{this.$store.dispatch('setUsers',response.data[0]);
+				const url='https://jsonplaceholder.typicode.com/users/'+this.$store.state.id
+				axios.get(url)
+				.then(response =>{this.$store.dispatch('setUser',response.data);
 			})
 			}
 			catch(error){
@@ -64,13 +85,30 @@
 			edit(){
 				this.editP=true;
 			},
-			save()
+			
+			async save()
 			{
-				this.editP=false;
+				const url='https://jsonplaceholder.typicode.com/users/'+this.$store.state.id
+				await axios.put(url,this.User);
+				
+				const fd= new FormData();
+				fd.append('image',this.selectedFile,this.selectedFile.name)
+				if(selectedFile){
+					const response= await axios.put('https://jsonplaceholder.typicode.com/photos/'+this.$store.state.id,fd)
+					console.log(response);
+				}
+				
+				(this.editP=false);
+				
 			},
 			notSave(){
 				this.imageUrl=this.$store.state.image;
-				this.editP=false;
+				const url='https://jsonplaceholder.typicode.com/users/'+this.$store.state.id
+				axios.get(url)
+				.then(response =>{
+					this.$store.dispatch('setUser',response.data);
+					this.editP=false
+				})
 			},
 			selectPhoto(event){
 				this.selectedFile=event.target.files[0]
@@ -82,16 +120,14 @@
 					fileReader.readAsDataURL(this.selectedFile)
 				}
 
-			},
-			onUpload(){
-				try{
-
-				}
-				catch(error){
-
-				}      
-			}		
+			}
+		},
+		computed:{
+			User(){
+				return this.$store.state.user;
+			}
 		}
+
 	}
 </script>
 
@@ -100,10 +136,27 @@
 	padding-top: 30px;
 }
 
-.btn{
+.btnU{
 	margin-top: 10px;
 	margin-bottom: 10px;
 	min-width:130px;
+}
+
+
+input {
+	width: 266px;
+	height:35px;
+	border-radius: 4px;
+	border: none;
+	margin: 15px 0;
+	padding: 16px 40px;
+	transition: all .2s;
+	background: white;
+	font-size: 12px;
+}
+
+.edit{
+	padding-top: 0px;
 }
 </style>
 
