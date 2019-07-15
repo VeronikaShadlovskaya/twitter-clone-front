@@ -1,11 +1,7 @@
 <template>
 	<form id="form-signin" class="form-signin">
 
-		<div id="logo" class="text-center mb-4">
-			<font-awesome-icon icon="smile"/>			
-			<h1 class="mb-3 font-weight-normal">Smile</h1>
-			<h4 id="greeting">Добро пожаловать</h4>
-		</div>
+	
 		<div id="flipthis">
 			<div class="form-label-group">
 				<input required v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address"  autofocus="">
@@ -22,8 +18,6 @@
 			</div>
 		</div>
 		<div class="text-center">
-			<br />
-			<router-link to="/password_reset" id="flipCard" class="" href="#">Забыли пароль?</router-link>
 			<br />
 			<router-link to="/register" id="flipReg" class="" href="register.html">Регистрация</router-link>
 		</div>
@@ -49,11 +43,10 @@
 					const url='http://cfu.ru/api/login';
 					const response=await axios.post(url,{email: this.email, password: this.password
 					});
-					const userId=response.data.id;
 					if(response.data.token)
 					{
 						this.$store.dispatch('setToken',response.data.token);
-						this.$router.replace({ name: 'user', params: { userId } });
+						this.$router.replace('/userPage');
 					}				
 				}
 				catch(error){

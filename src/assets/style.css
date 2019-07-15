@@ -24,6 +24,9 @@ body {
   color: white;
 }
 
+#greeting{
+  font-size: 40pt
+}
 .login,.register {
   width: 100%;
   max-width: 420px;
@@ -199,4 +202,3 @@ body {
   border: 1px solid #aaa;
 }
 
-.fa-smile{font-size:180px;}
