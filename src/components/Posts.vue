@@ -1,6 +1,6 @@
 <template>
   <div id="add-blog">   
-    <form>
+    <form v-if="this.$store.state.user.id==this.$store.state.id">
       <textarea type="text" v-model="content" placeholder="Новый пост..."></textarea> 
       <div class="row">
         <div class="col-md-9"></div>

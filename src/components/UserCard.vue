@@ -2,15 +2,15 @@
 	<div class="userCard">
 		<img :src="imageUrl" class="mainImg">
 		<div v-if="!editP">
-			<button class="btn btn-secondary btn-sm btnU" @click="edit">Редактировать профиль </button>
-			<h4  class="userName"> {{User.username}}</h4>
-			<h6 v-if="User.birth"> День рождения: {{User.birth}}</h6>
-			<h6 v-if="User.address.city"> Город: {{User.address.city}}</h6>
-			<h6 v-if="User.website"> Сайт: {{User.website}}</h6>
+			<button  v-if="user.id==this.$store.state.id" class="btn btn-secondary btn-sm btnU" @click="edit">Редактировать профиль </button>
+			<h4  class="userName"> {{user.username}}</h4>
+			<h6 v-if="user.birth"> День рождения: {{user.birth}}</h6>
+			<h6 v-if="user.address.city"> Город: {{user.address.city}}</h6>
+			<h6 v-if="user.website"> Сайт: {{user.website}}</h6>
 		</div>
 		
 
-		<div v-else>
+		<div v-if="editP">
 			<div class="userCardEdit">
 				<input style="display:none" type="file" @change="selectPhoto" ref="fileInput" accept="image/*">
 				<div class="container edit">
@@ -20,16 +20,16 @@
 						</div>
 
 						<div class="col-md-12 ml-auto">
-							<h5>Имя: <input  type="text" v-model="User.username" ></h5>		
+							<h5>Имя: <input  type="text" v-model="user.username" ></h5>		
 						</div>
 						<div class="col-md-12 ml-auto">					
 							<h5>Дата рождения:<date-picker v-model="date" :config="options"></date-picker></h5>
 						</div>
 						<div class="col-md-12 ml-auto">
-							<h5>Город: <input  type="text" v-model="User.address.city" ></h5>		
+							<h5>Город: <input  type="text" v-model="user.address.city" ></h5>		
 						</div>
 						<div class="col-md-12 ml-auto">
-							<h5>Веб-сайт: <input  type="url" v-model="User.website"></h5>		
+							<h5>Веб-сайт: <input  type="url" v-model="user.website"></h5>		
 						</div>
 
 						<div class="col-md-6"> 
@@ -50,6 +50,8 @@
 	import axios from 'axios'
 	import datePicker from 'vue-bootstrap-datetimepicker'
 	import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css'
+	
+
 	export default {
 		name: "UserCard",
 		components:{
@@ -89,11 +91,13 @@
 			async save()
 			{
 				const url='https://jsonplaceholder.typicode.com/users/'+this.$store.state.id
-				await axios.put(url,this.User);
+				await axios.put(url,this.user);
 				
-				const fd= new FormData();
-				fd.append('image',this.selectedFile,this.selectedFile.name)
-				if(selectedFile){
+				
+				if(this.selectedFile)
+				{
+					const fd= new FormData();
+					fd.append('image',this.selectedFile,this.selectedFile.name)
 					const response= await axios.put('https://jsonplaceholder.typicode.com/photos/'+this.$store.state.id,fd)
 					console.log(response);
 				}
@@ -122,10 +126,8 @@
 
 			}
 		},
-		computed:{
-			User(){
-				return this.$store.state.user;
-			}
+		computed: {
+			user(){ return this.$store.getters.getUser;}
 		}
 
 	}
