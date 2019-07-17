@@ -1,7 +1,6 @@
-<template id="app"> 
-	<router-view />
+
+<template id="app">	
+		<router-view />
 </template>
 
-<style src="./assets/style.css"></style>
-
-
+<style  src="./assets/style.css"></style>

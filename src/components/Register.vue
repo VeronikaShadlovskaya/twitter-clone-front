@@ -1,4 +1,4 @@
-<template>
+<template class="body">
 	<form id="form-signin" class="register">
 		<div id="logo" class="text-center mb-4">
 			<h4 id="greeting">Заполните все поля ниже</h4>
@@ -30,6 +30,10 @@
 			<div class="text-center">
 				<button @click="register" class="btn btn-primary btn-lg btn-block" type="submit">Регистрация</button>
 			</div>
+			<div class="text-center">
+			<br />
+			<router-link to="/" id="flipReg" class="">Вход</router-link>
+		</div>
 		</div>
 	</form>
 </template>
@@ -67,10 +71,10 @@
 					}	
 				}
 				catch(error){
-					this.errors=[];
-					this.errors.push(error.message)
+					console.log(error);
 				}
 			}
 		}		
 	}
 </script>
+

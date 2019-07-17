@@ -1,9 +1,8 @@
-<template>
+<template class="body">
 	<form id="form-signin" class="form-signin">
-
-
-
-		
+		<div id="logo" class="text-center mb-4">
+			<h4 id="greeting">Добро пожаловать</h4>
+		</div>
 		<div id="flipthis">
 			<div class="form-label-group">
 				<input required v-model="email" type="email" id="inputEmail" class="form-control" placeholder="Email address"  autofocus="">
@@ -47,21 +46,17 @@
 					});
 					if(response.data.token)
 					{
+						//setId
 						this.$store.dispatch('setToken',response.data.token);
 						this.$router.replace('/userPage');
 					}				
 				}
 				catch(error){
-					this.errors=[];
-					this.errors.push(error.message)
+					console.log(error);
 				}
 			}
 		}
 	}
 
 </script>
-
-
-
-
 
