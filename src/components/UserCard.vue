@@ -1,14 +1,6 @@
 <template>
 	<div class="userCard">
-		<img :src="imageUrl" class="mainImg">
-		<div v-if="!editP">
-			<button  v-if="user.id==this.$store.state.id" class="btn btn-secondary btn-sm btnU" @click="edit">Редактировать профиль </button>
-			<h4  class="userName"> {{user.username}}</h4>
-			<h6 v-if="user.birth"> День рождения: {{user.birth}}</h6>
-			<h6 v-if="user.address.city"> Город: {{user.address.city}}</h6>
-			<h6 v-if="user.website"> Сайт: {{user.website}}</h6>
-		</div>
-		
+		<img :src="imageUrl" class="mainImg">		
 
 		<div v-if="editP">
 			<div class="userCardEdit">
@@ -42,6 +34,15 @@
 				</div>
 			</div>
 		</div>
+
+		<div v-else>
+			<button  v-if="user.id===this.$store.state.id" class="btn btn-secondary btn-sm btnU" @click="edit">Редактировать профиль </button>
+			<h4  class="userName"> {{user.username}}</h4>
+			<h6 v-if="user.birth"> День рождения: {{user.birth}}</h6>
+			<h6 v-if="user.address.city"> Город: {{user.address.city}}</h6>
+			<h6 v-if="user.website"> Сайт: {{user.website}}</h6>
+		</div>
+
 	</div>
 
 </template>
@@ -127,7 +128,12 @@
 			}
 		},
 		computed: {
-			user(){ return this.$store.getters.getUser;}
+			user(){ return this.$store.getters.getUser;},
+
+		},
+		beforeUpdate(){
+			if(this.user.id!=this.$store.state.id)
+				this.editP=false;
 		}
 
 	}
